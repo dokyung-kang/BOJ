@@ -2,66 +2,83 @@
 #include<stdio.h>
 #include <stdio.h>
 
-int t;
-void swap(int* a, int* b)
+void swap(int* n1, int* n2)
 {
+	int temp;
 
-	t = *a;
-	*a = *b;
-	*b = t;
+	temp = *n1;
+	*n1 = *n2;
+	*n2 = temp;
 }
 
-int main()
+int findPivot(int* a, int size)
 {
-	int n, k = -1;
-	int j;
-	scanf("%d", &n);
+	int pivot = -1;
+	int i;
+
+	for (i = size - 1; i >= 1; i--) {
+		if (a[i] > a[i - 1]) {
+			pivot = i;
+			break;
+		}
+	}
+
+	return pivot;
+}
+
+int findIdx(int* a, int pivot, int size)
+{
+	int i;
+	int idx = 0;
+
+	for (i = pivot; i < size; i++) {
+		if (a[i] > a[pivot - 1]) {
+			idx = i;
+		}
+		else {
+			break;
+		}
+	}
+
+	return idx;
+}
+
+void sortAll(int* a, int pivot, int n)
+{
+	int i;
+
+	for (i = pivot; (i - pivot) * 2 < n - pivot; i++)
+		swap(&a[i], &a[n + pivot - i - 1]);
+}
+
+int main(void)
+{
+	int n;
+	int i;
+	int pivot = -1;
+	int tmpIdx;
 	int a[10010];
 
-	for (int i = 0; i < n; i++)
-	{
+	scanf("%d", &n);
+
+	for (i = 0; i < n; i++){
 		scanf("%d", &a[i]);
 	}
 
-	for (int i = n - 1; i >= 1; i--)
-	{
-		if (a[i] > a[i - 1])
-		{
-			k = i;
-			break;
-		}
-	}
+	pivot = findPivot(a, n);
 
-	if (k == -1)
-	{
+	if (pivot == -1){
 		printf("-1");
-		return 0;
+
 	}
+	else {
+		tmpIdx = findIdx(a, pivot, n);
 
-	for (int i = k; i < n; i++)
-	{
-		if (a[i] > a[k - 1])
-		{
-			j = i;
-		}
-		else
-		{
-			break;
-		}
+		swap(&a[pivot - 1], &a[tmpIdx]);
+
+		sortAll(a, pivot, n);
+
+		for (i = 0; i < n; i++)
+			printf("%d ", a[i]);
 	}
-
-	swap(&a[k - 1], &a[j]);
-
-
-	for (int i = k; 2 * (i - k) < n - k; i++)
-	{
-		swap(&a[i], &a[n + k - 1 - i]);
-	}
-
-	for (int i = 0; i < n; i++)
-	{
-		printf("%d ", a[i]);
-	}
-
-	return 0;
 }
