@@ -10,7 +10,6 @@ void search(int n, int s, int* arr, int d, int total)
 		cnt++;
 	}
 
-
 	search(n, s, arr, d + 1, total + arr[d]);
 	search(n, s, arr, d + 1, total);
 }
