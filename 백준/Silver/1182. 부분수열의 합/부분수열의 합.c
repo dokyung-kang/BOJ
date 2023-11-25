@@ -3,12 +3,14 @@
 int cnt = 0;
 void search(int n, int s, int* arr, int d, int total)
 {
-	if (d == n) {
-		if (total == s) {
-			cnt++;
-		}
+	if (d >= n) {
 		return;
 	}
+	if (total + arr[d] == s) {
+		cnt++;
+	}
+
+
 	search(n, s, arr, d + 1, total + arr[d]);
 	search(n, s, arr, d + 1, total);
 }
@@ -28,9 +30,6 @@ int main(void)
 		scanf("%d", &arr[i]);
 
 	search(n, s, arr, 0, 0);
-
-	if (s == 0)
-		printf("%d", cnt - 1);
-	else
-		printf("%d", cnt);
+	
+	printf("%d", cnt);
 }
